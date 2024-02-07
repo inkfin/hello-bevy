@@ -6,9 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = { version = "0.12", features = ["dynamic_linking"] }
+# bevy = { version = "0.12.0", features = ["dynamic_linking"] }
+bevy = { version = "0.12.0" }
 # disable dynamic_linking feature before releasing
-blake3 = { version = "1.5", features = ["pure"] }
+blake3 = { version = "1.5.0", features = ["pure"] }
 # enable pure to avoid build error on windows
 
 [workspace]

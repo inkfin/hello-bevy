@@ -1,59 +1,26 @@
+mod camera;
+mod debug;
+mod movement;
+mod spaceship;
+
 use bevy::prelude::*;
 
-pub struct HelloPlugin;
-
-#[derive(Resource)]
-struct GreetTimer(Timer);
-
-impl Plugin for HelloPlugin {
-    fn build(&self, app: &mut App) {
-        app.insert_resource(GreetTimer(Timer::from_seconds(2.0, TimerMode::Repeating)))
-            .add_systems(Startup, add_people)
-            .add_systems(Update, greet_people);
-    }
-}
-
-#[derive(Component)]
-struct Position {
-    x: f32,
-    y: f32,
-}
-
-#[derive(Component)]
-struct Person;
-
-#[derive(Component)]
-struct Name(String);
-
-fn print_position_system(query: Query<&Position>) {
-    for position in &query {
-        println!("Position: x: {}, y: {}", position.x, position.y);
-    }
-}
-
-fn add_people(mut commands: Commands) {
-    commands.spawn((Person, Name("Elaina Proctor".to_string())));
-    commands.spawn((Person, Name("Renzo Hume".to_string())));
-    commands.spawn((Person, Name("Zayna Nieves".to_string())));
-}
-
-fn greet_people(time: Res<Time>, mut timer: ResMut<GreetTimer>, query: Query<&Name, With<Person>>) {
-    if timer.0.tick(time.delta()).just_finished() {
-        for name in &query {
-            println!("hello {}!", name.0);
-        }
-    }
-}
-
-fn update_people(mut query: Query<&mut Name, With<Person>>) {
-    for mut name in &mut query {
-        if name.0 == "Elaina Proctor" {
-            name.0 = "Elaina Hume".to_string();
-            break;
-        }
-    }
-}
+use camera::CameraPlugin;
+use debug::DebugPlugin;
+use movement::MovementPlugin;
+use spaceship::SpaceshipPlugin;
 
 fn main() {
-    App::new().add_plugins((DefaultPlugins, HelloPlugin)).run();
+    App::new()
+        .insert_resource(ClearColor(Color::rgb(0.1, 0.0, 0.15)))
+        .insert_resource(AmbientLight {
+            color: Color::default(),
+            brightness: 0.75,
+        })
+        .add_plugins(DefaultPlugins)
+        .add_plugins(CameraPlugin)
+        .add_plugins(SpaceshipPlugin)
+        .add_plugins(MovementPlugin)
+        .add_plugins(DebugPlugin)
+        .run();
 }
