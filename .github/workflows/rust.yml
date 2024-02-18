@@ -28,7 +28,7 @@ jobs:
         path: ~/.cargo/bin/wasm-bindgen
         key: ${{ runner.os }}-wasm-bindgen-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
-          ${{ runner.os }}-wasm-bindgen-
+          ${{ runner.os }}-wasm-bindgen
 
     - name: Install wasm-bindgen
       if: steps.cache-wasm-bindgen.outputs.cache-hit != 'true'
