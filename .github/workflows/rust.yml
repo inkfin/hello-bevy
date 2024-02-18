@@ -58,10 +58,7 @@ jobs:
       run: |
         rustup target add wasm32-unknown-unknown
         cargo build --verbose --target wasm32-unknown-unknown --release
-        wasm-bindgen --no-typescript --target web \
-          --out-dir ./out/ \
-          --out-name "hello-bevy" \
-          ./target/wasm32-unknown-unknown/release/hello-bevy.wasm
+        wasm-bindgen --no-typescript --target web --out-dir ./out/ --out-name "hello-bevy" ./target/wasm32-unknown-unknown/release/hello-bevy.wasm
 
     - name: Build archive
       shell: bash
@@ -70,11 +67,11 @@ jobs:
         cp README.md archive/
         cp -r assets/ out/assets/
         cp -r out/ archive/wasm32/
-        zip -r wasm32.zip archive/wasm32/
+        tar acvf archive/wasm32.zip archive/wasm32/
         mkdir archive/windows
         cp target/release/hello-bevy.exe archive/windows/
         cp -r assets/ archive/windows/
-        zip -r windows.zip archive/windows/
+        tar acvf archive/windows.zip archive/windows/
 
     - name: Upload archive
       uses: actions/upload-artifact@v4
