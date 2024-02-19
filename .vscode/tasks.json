@@ -1,0 +1,107 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "tasks": [
+        {
+            "label": "cargo build (dev)",
+            "args": [
+                "build",
+                "-v"
+            ],
+            "command": "cargo",
+            "group": "build",
+            "problemMatcher": [
+                {
+                    "owner": "rust",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceRoot}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(\\d+):(\\d+)\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endLine": 4,
+                        "endColumn": 5,
+                        "severity": 6,
+                        "message": 7
+                    }
+                }
+            ]
+        },
+        {
+            "label": "cargo build (release)",
+            "args": [
+                "build",
+                "-v",
+                "--release"
+            ],
+            "command": "cargo",
+            "group": "build",
+            "problemMatcher": [
+                {
+                    "owner": "rust",
+                    "fileLocation": [
+                        "relative",
+                        "${workspaceRoot}"
+                    ],
+                    "pattern": {
+                        "regexp": "^(.*):(\\d+):(\\d+):\\s+(\\d+):(\\d+)\\s+(warning|error):\\s+(.*)$",
+                        "file": 1,
+                        "line": 2,
+                        "column": 3,
+                        "endLine": 4,
+                        "endColumn": 5,
+                        "severity": 6,
+                        "message": 7
+                    }
+                }
+            ]
+        },
+        {
+            "label": "cargo clean",
+            "args": [
+                "clean"
+            ],
+            "command": "cargo",
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
+            "label": "wasm-pack build",
+            "command": "cargo",
+            "args": [
+                "build",
+                "--verbose",
+                "--target",
+                "wasm32-unknown-unknown",
+                "--release"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "wasm-bindgen",
+            "command": "wasm-bindgen",
+            "args": [
+                "--no-typescript",
+                "--target",
+                "web",
+                "--out-dir",
+                "./out/",
+                "--out-name",
+                "hello-bevy",
+                "./target/wasm32-unknown-unknown/release/hello-bevy.wasm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": "wasm-pack build",
+        }
+    ]
+}

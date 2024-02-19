@@ -21,19 +21,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Cache wasm-bindgen
-      uses: actions/cache@v4
-      id: cache-wasm-bindgen
-      with:
-        path: ~/.cargo/bin/wasm-bindgen
-        key: ${{ runner.os }}-wasm-bindgen-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-wasm-bindgen
-
-    - name: Install wasm-bindgen
-      if: steps.cache-wasm-bindgen.outputs.cache-hit != 'true'
-      run: cargo install wasm-bindgen-cli
-
     - name: Cache Cargo
       uses: actions/cache@v4
       id: cache
@@ -53,6 +40,9 @@ jobs:
       run: cargo build --verbose --release
       env:
           RUST_BACKTRACE: 1
+
+    - name: Install wasm-bindgen
+      run: cargo install wasm-bindgen-cli
 
     - name: Build wasm
       run: |

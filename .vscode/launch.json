@@ -7,7 +7,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'hello-bevy'",
+            "name": "Debug native",
             "cargo": {
                 "args": [
                     "build",
@@ -48,8 +48,9 @@
             }
         },
         {
-            "type": "chrome",
-            "name": "http://127.0.0.1:3000/out/index.html",
+            "name": "Launch in Web Browser",
+            "preLaunchTask": "wasm-bindgen",
+            "type": "msedge",
             "request": "launch",
             "url": "http://127.0.0.1:3000/out/index.html"
         }
