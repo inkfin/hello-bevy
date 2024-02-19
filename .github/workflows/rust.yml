@@ -34,7 +34,8 @@ jobs:
           out/
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
-          ${{ runner.os }}-cargo-
+          ${{ runner.os }}-cargo
+          ${{ runner.os }}
 
     - name: Build binary (windows)
       run: cargo build --verbose --release
@@ -42,7 +43,7 @@ jobs:
           RUST_BACKTRACE: 1
 
     - name: Install wasm-bindgen
-      run: cargo install wasm-bindgen-cli
+      run: cargo install wasm-bindgen-cli --force
 
     - name: Build wasm
       run: |
